@@ -1,0 +1,54 @@
+[
+    {
+      "txt": "Adobe",
+      "img": "/images/sponsers/adobe.svg"
+    },
+    {
+      "txt": "Amazon",
+      "img": "/images/sponsers/amazon.svg"
+    },
+    {
+      "txt": "Apple",
+      "img": "/images/sponsers/apple.svg"
+    },
+    {
+      "txt": "Flipkart",
+      "img": "/images/sponsers/flipkart.svg"
+    },
+    {
+      "txt": "Google",
+      "img": "/images/sponsers/google.svg"
+    },
+    {
+      "txt": "Meta",
+      "img": "/images/sponsers/meta.svg"
+    },
+    {
+      "txt": "Microsoft",
+      "img": "/images/sponsers/microsoft.svg"
+    },
+    {
+      "txt": "Payal",
+      "img": "/images/sponsers/paypal.svg"
+    },
+    {
+      "txt": "Paytm",
+      "img": "/images/sponsers/paytm.svg"
+    },
+    {
+      "txt": "Razorpay",
+      "img": "/images/sponsers/razorpay.svg"
+    },
+    {
+      "txt": "Target",
+      "img": "/images/sponsers/target.svg"
+    },
+    {
+      "txt": "Walmart",
+      "img": "/images/sponsers/walmart.svg"
+    },
+    {
+      "txt": "Zomato",
+      "img": "/images/sponsers/zomato.svg"
+    }
+  ]

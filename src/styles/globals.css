@@ -1,0 +1,15 @@
+*{
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: transparent;
+  
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

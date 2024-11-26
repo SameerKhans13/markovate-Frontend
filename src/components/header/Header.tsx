@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import "./header.css";
+import Link from "next/link";
 const Header = () => {
   const [isAuthed, setIsAuthed] = useState<string>("");
   const headRef = useRef<HTMLDivElement>(null);
@@ -35,30 +36,21 @@ const Header = () => {
         <div className="progressbar"></div>
         <div className="head" ref={headRef}>
           <div className="empty"></div>
-          <div className="navopt" onClick={() => "/about"}>
-            About
-          </div>
-          <div className="navopt" onClick={() => "/contact"}>
+          <Link className="navopt" href={"/"}>
+            Home
+          </Link>
+          <Link className="navopt" href={"/contact"}>
             Contact Us
-          </div>
-          <div className="navopt" onClick={() => "/event"}>
-            Services
-          </div>
-          <div className="navopt" onClick={() => "/sponser"}>
+          </Link>
+          <Link className="navopt" href={"/partners"}>
             Partners
-          </div>
-          <div
-            className="navopt"
-            onClick={() => {
-              if (isAuthed === "Dashboard") {
-                ("/dashboard");
-              } else {
-                ("/auth");
-              }
-            }}
-          >
-            {isAuthed}
-          </div>
+          </Link>
+          <Link className="navopt" href={"/services"}>
+            Services
+          </Link>
+          <Link className="navopt" href={"/auth"}>
+            Sign In
+          </Link>
         </div>
       </header>
     </>

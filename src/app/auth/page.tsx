@@ -1,203 +1,194 @@
 "use client";
-import type { Metadata } from "next";
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import BGAnimation from "../../components/Backgroundanimation/Bganimation";
+import Header from "../../components/header/Header";
+import Footer from "../../components/footer/Footer";
 import "./page.css";
-// import "@fortawesome/fontawesome-free/css/all.min.css";
 
-const RoleSelector = () => {
-  const [selectedRole, setSelectedRole] = useState<null | string>(null);
-  const [showContent, setShowContent] = useState(false);
+const LoginPage: React.FC = () => {
+  const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
-    // Use setTimeout to match the original timing
-    setTimeout(() => {
-      setShowContent(true);
-    }, 500);
   };
 
   const resetView = () => {
     setSelectedRole(null);
-    setShowContent(false);
   };
 
-  return (
-    <div>
-      <div
-        className={`flex transition-all duration-500 ${
-          selectedRole === "student"
-            ? "justify-start"
-            : selectedRole === "teacher"
-            ? "justify-end"
-            : "justify-between"
-        }`}
-      >
-        <button
-          className={`flex items-center transition-all duration-500 ${
-            selectedRole === "student" ? "expanded" : ""
-          }`}
-          onClick={() => handleRoleSelect("student")}
-          style={{ display: selectedRole === "teacher" ? "none" : "flex" }}
-        >
-          Student
-        </button>
+  const backgroundVariants = {
+    initial: { opacity: 0, scale: 0.9 },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.6, type: "spring", stiffness: 70 },
+    },
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.3 } },
+  };
 
-        <button
-          className={`flex items-center transition-all duration-500 ${
-            selectedRole === "teacher" ? "expanded" : ""
-          }`}
-          onClick={() => handleRoleSelect("teacher")}
-          style={{ display: selectedRole === "student" ? "none" : "flex" }}
-        >
-          Teacher
-        </button>
-      </div>
+  const buttonVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, type: "spring", stiffness: 120 },
+    },
+    hover: { scale: 1.05, transition: { duration: 0.2 } },
+    tap: { scale: 0.95 },
+  };
 
-      {showContent && selectedRole === "student" && (
-        <div className="block">
-          Student Content Box
-          <button onClick={resetView}>Go Back</button>
-        </div>
-      )}
-
-      {showContent && selectedRole === "teacher" && (
-        <div className="block">
-          Teacher Content Box
-          <button onClick={resetView}>Go Back</button>
-        </div>
-      )}
-    </div>
-  );
-};
-
-// export default RoleSelector;
-
-const LoginPage = () => {
-  const [selectedRole, setSelectedRole] = useState<null | any>(null);
-  const [showContent, setShowContent] = useState(false);
-
-  // CSS variables
-  const styles = {
-    ":root": {
-      "--primary-color": "#2563eb",
-      "--secondary-color": "#0284c7",
-      "--accent-color": "#3b82f6",
-      "--background-start": "#dbeafe",
-      "--background-end": "#bfdbfe",
-      "--text-primary": "#1e293b",
-      "--text-secondary": "#475569",
-      "--white": "#ffffff",
-      "--error": "#ef4444",
-      "--success": "#22c55e",
+  const formVariants = {
+    initial: { opacity: 0, x: selectedRole === "student" ? -50 : 50 },
+    animate: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.5, type: "spring", stiffness: 100 },
+    },
+    exit: {
+      opacity: 0,
+      x: selectedRole === "student" ? -50 : 50,
+      transition: { duration: 0.3 },
     },
   };
 
-  const handleRoleSelect = (role: any) => {
-    setSelectedRole(role);
-    setTimeout(() => {
-      setShowContent(true);
-    }, 500);
-  };
-
-  const resetView = () => {
-    setSelectedRole(null);
-    setShowContent(false);
-  };
   return (
     <>
-      <div className="login-container">
-        <h1>Welcome Back!</h1>
-        <div
-          className="role-buttons"
-          style={{
-            justifyContent:
-              selectedRole === "student"
-                ? "flex-start"
-                : selectedRole === "teacher"
-                ? "flex-end"
-                : "space-between",
-          }}
+    <div className="login-page">
+      <BGAnimation />
+      <Header />
+      <motion.div
+        className="login-container"
+        variants={backgroundVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+      >
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, type: "spring" }}
         >
-          <button
-            className={`role-btn ${
-              selectedRole === "student" ? "expanded" : ""
-            }`}
-            onClick={() => handleRoleSelect("student")}
-            style={{ display: selectedRole === "teacher" ? "none" : "flex" }}
-          >
-            <i className="fas fa-user-graduate"></i>
-            Student
-          </button>
-          <button
-            className={`role-btn ${
-              selectedRole === "teacher" ? "expanded" : ""
-            }`}
-            onClick={() => handleRoleSelect("teacher")}
-            style={{ display: selectedRole === "student" ? "none" : "flex" }}
-          >
-            <i className="fas fa-chalkboard-teacher"></i>
-            Teacher
-          </button>
-        </div>
+          Welcome Back!
+        </motion.h1>
 
-        <div
-          className="sign-in-box"
-          style={{
-            display:
-              showContent && selectedRole === "student" ? "block" : "none",
-          }}
-        >
-          <h3>Student Login</h3>
-          <div className="input-group">
-            <i className="fas fa-id-card"></i>
-            <input type="text" placeholder="Student ID" />
-          </div>
-          <div className="input-group">
-            <i className="fas fa-lock"></i>
-            <input type="password" placeholder="Password" />
-          </div>
-          <div className="remember-me">
-            <input type="checkbox" id="remember-student" />
-            <label htmlFor="remember-student">Remember me</label>
-          </div>
-          <div className="forgot-password">
-            <a href="#">Forgot password?</a>
-          </div>
-          <button className="sign-in-btn">Sign In</button>
-          <button className="go-back-btn" onClick={resetView}>
-            Go Back
-          </button>
-        </div>
+        {/* Role Selection Buttons */}
+        <AnimatePresence>
+          {!selectedRole && (
+            <motion.div
+              className="role-buttons"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <motion.button
+                key="student-btn"
+                className="role-btn"
+                onClick={() => handleRoleSelect("student")}
+                variants={buttonVariants}
+                initial="initial"
+                animate="animate"
+                whileHover="hover"
+                whileTap="tap"
+              >
+                <i className="fas fa-user-graduate"></i> Student
+              </motion.button>
 
-        <div
-          className="sign-in-box"
-          style={{
-            display:
-              showContent && selectedRole === "teacher" ? "block" : "none",
-          }}
-        >
-          <h3>Teacher Login</h3>
-          <div className="input-group">
-            <i className="fas fa-id-card"></i>
-            <input type="text" placeholder="Teacher ID" />
-          </div>
-          <div className="input-group">
-            <i className="fas fa-lock"></i>
-            <input type="password" placeholder="Password" />
-          </div>
-          <div className="remember-me">
-            <input type="checkbox" id="remember-teacher" />
-            <label htmlFor="remember-teacher">Remember me</label>
-          </div>
-          <div className="forgot-password">
-            <a href="#">Forgot password?</a>
-          </div>
-          <button className="sign-in-btn">Sign In</button>
-          <button className="go-back-btn" onClick={resetView}>
-            Go Back
-          </button>
-        </div>
-      </div>
+              <motion.button
+                key="teacher-btn"
+                className="role-btn"
+                onClick={() => handleRoleSelect("teacher")}
+                variants={buttonVariants}
+                initial="initial"
+                animate="animate"
+                whileHover="hover"
+                whileTap="tap"
+              >
+                <i className="fas fa-chalkboard-teacher"></i> Teacher
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Role-specific Content */}
+        <AnimatePresence>
+          {selectedRole && (
+            <motion.div
+              key={selectedRole}
+              className="sign-in-box"
+              variants={formVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <motion.h3
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                {selectedRole === "student" ? "Student Login" : "Teacher Login"}
+              </motion.h3>
+
+              <motion.div
+                className="input-group"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <i className="fas fa-id-card"></i>
+                <input
+                  type="text"
+                  placeholder={`${
+                    selectedRole === "student" ? "Student" : "Teacher"
+                  } ID`}
+                />
+              </motion.div>
+
+              <motion.div
+                className="input-group"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <i className="fas fa-lock"></i>
+                <input type="password" placeholder="Password" />
+              </motion.div>
+
+              <motion.div
+                className="remember-me"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
+                <label htmlFor={`remember-${selectedRole}`}>Remember me</label>
+                <input type="checkbox" id={`remember-${selectedRole}`} />
+              </motion.div>
+
+              <motion.div
+                className="forgot-password"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                <a href="#">Forgot password?</a>
+              </motion.div>
+
+              <motion.button
+                className="sign-in-btn"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                Sign In
+              </motion.button>
+
+  
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
+      <Footer />
     </>
   );
 };

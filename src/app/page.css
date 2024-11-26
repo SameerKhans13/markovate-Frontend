@@ -95,6 +95,7 @@
   align-items: center;
   padding: 2rem;
   position: relative;
+  z-index: -33;
 }
 
 .hero-title {
@@ -276,8 +277,32 @@
   .hero-subtitle {
     font-size: 1.2rem;
   }
-  
-  .animated-letter{
-    font-size: 4rem;
+}
+
+
+@media (max-width: 768px) {
+  .animated-letter {
+    font-size: 4rem; /* Adjust size for larger phones */
+  }
+}
+
+/* Medium Phones (max-width: 600px) */
+@media (max-width: 600px) {
+  .animated-letter {
+    font-size: 3.5rem; /* Adjust size for medium phones */
+  }
+}
+
+/* Small Phones (max-width: 480px) */
+@media (max-width: 480px) {
+  .animated-letter {
+    font-size: 3rem; /* Adjust size for smaller phones */
+  }
+}
+
+/* Extra Small Phones (max-width: 360px) */
+@media (max-width: 360px) {
+  .animated-letter {
+    font-size: 2.5rem; /* Adjust size for very small screens */
   }
 }

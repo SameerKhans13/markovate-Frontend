@@ -173,18 +173,7 @@ input:focus + i {
   box-shadow: 0 20px 30px -5px rgba(74, 108, 247, 0.4);
 }
 
-.remember-me {
-  display: flex;
-  align-items:flex-start;
-  gap:0.5px;
-  background-color: transparent;
-  color : white;
-}
-
-.remember-me input[type="checkbox"] {
-  margin: 10px; /* Remove default margin from the checkbox */
-}
-h3 ,.forgot-password,label,a{
+h3 ,.forgot-password,a{
   background-color: transparent;
 
 }
@@ -193,4 +182,39 @@ h3 ,.forgot-password,label,a{
 .forgot-password{
   margin-top: 4%;
   margin-bottom: 8%;
+}
+#remember-student{
+  margin-top: 4%;
+  margin-left: 8%;
+}
+#remember-teacher{
+  margin-top: 4%;
+  margin-left: 8%;
+}
+.remember-me {
+  display: flex;
+  align-items:flex-end;/* Aligns items vertically */
+  gap: 0.5rem; /* Adds space between checkbox and text */
+  color: white;
+  font-size: 0.9rem; /* Adjust font size if needed */
+  background-color: transparent;
+}
+
+.remember-me input[type="checkbox"] {
+  margin: 0; /* Removes extra default margins */
+  width: 18px; /* Optional: Sets a consistent size for the checkbox */
+  height: 18px;
+  margin-bottom: 10px;
+  background-color: transparent;
+}
+
+
+label {
+  display: inline-flex; /* Ensures proper alignment */
+  align-items: center;
+  gap: 0.5rem; /* Space between checkbox and text */
+  color: white;
+  margin-bottom: 3%;
+  margin-left: 25px;
+  background-color: transparent;
 }

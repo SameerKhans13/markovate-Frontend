@@ -18,7 +18,7 @@ const ParticleBackground = () => {
 
   return (
     <div className="particles-wrapper">
-      {particles.map((_, index) => (
+      {/* {particles.map((_, index) => (
         <motion.div
           key={index}
           className="particle"
@@ -37,7 +37,7 @@ const ParticleBackground = () => {
             ease: "linear",
           }}
         />
-      ))}
+      ))} */}
     </div>
   );
 };
@@ -178,8 +178,8 @@ const HeroSection = () => {
 
   return (
     <motion.div className="hero-section" style={{ y }}>
-      <AnimatedText text="Welcome to Markovate"  className="hero-title" />
-    
+      <AnimatedText text="Welcome to Markovate" className="hero-title" />
+
       <motion.p
         className="hero-subtitle"
         initial={{ opacity: 0, y: 20 }}

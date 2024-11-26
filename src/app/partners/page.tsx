@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 import PartnerCard from "../../components/Partner/Partnercard";
 import Header from "../../components/header/Header";
@@ -16,7 +16,7 @@ interface Sponsor {
 }
 
 // Main partner Component
-const partner: React.FC = () => {
+const Partner = () => {
   // State to hold the shuffled list of sponsors
   const [shuffledList, setShuffledList] = useState<Sponsor[]>([]);
 
@@ -74,4 +74,4 @@ const partner: React.FC = () => {
   );
 };
 
-export default partner;
+export default Partner;

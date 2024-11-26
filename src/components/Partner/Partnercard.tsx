@@ -10,7 +10,7 @@ interface partnerCardProps {
 const PartnerCard: React.FC<partnerCardProps> = ({ title, image }) => {
   return (
     <div className="partner-card">
-      <img src={image} alt={title} draggable={false} />
+      {/* <img src={image} alt={title} draggable={false} /> */}
       <p className="partner-title">{title}</p>
     </div>
   );

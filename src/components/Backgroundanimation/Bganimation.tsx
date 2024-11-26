@@ -7,7 +7,7 @@ const ParticleBackground: React.FC = () => {
 
   return (
     <div className="particles-wrapper">
-      {particles.map((_, index) => (
+      {/* {particles.map((_, index) => (
         <motion.div
           key={index}
           className="particle"
@@ -26,7 +26,7 @@ const ParticleBackground: React.FC = () => {
             ease: "linear",
           }}
         />
-      ))}
+      ))} */}
     </div>
   );
 };

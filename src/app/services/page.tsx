@@ -142,12 +142,12 @@ const Services: React.FC = () => {
                     transition: { duration: 0.6 }
                   }}
                 >
-                  <img
+                  {/* <img
                     src={service.icon}
                     alt={service.title}
                     className="service-icon"
                     draggable={false}
-                  />
+                  /> */}
                 </motion.div>
                 <h3 
                   className="service-title"

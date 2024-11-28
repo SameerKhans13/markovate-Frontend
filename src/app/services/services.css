@@ -6,6 +6,7 @@ body {
   color: #fff;
   overflow-x: hidden;
   line-height: 1.6;
+  
 }
 
 .services-page {
@@ -18,7 +19,7 @@ body {
   text-align: center;
   padding: 80px 20px 40px;
   position: relative;
-  z-index: -10;
+  background-color:transparent;
 }
 
 .services-title {
@@ -31,6 +32,7 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 20px;
+  z-index: 10;
 }
 
 .services-description {

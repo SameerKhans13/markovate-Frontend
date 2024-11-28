@@ -40,7 +40,7 @@ body{
     overflow-x: auto;
     overflow-y: hidden;
     scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
+    -snap-type: x mandatory;
 }
 
 .partners-list>.list::-webkit-scrollbar {
@@ -123,6 +123,7 @@ body{
     align-items: center;
     text-align: center;
     font-family: 'Poppins', sans-serif;
+    background-color: transparent;
     background: linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899,#8b5cf6,#ec4899,#8b5cf6, #3b82f6);
     -webkit-background-clip: text;
     background-clip: text;
@@ -133,5 +134,5 @@ body{
   .particles-wrapper {
     position: fixed;
     transform-origin: 0%;
-    z-index: 1000;
+    z-index: -444;
   }

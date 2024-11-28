@@ -1,0 +1,27 @@
+/* Base Button Styles */
+.button {
+    padding: 0.5rem 1rem; /* Tailwind px-4 py-2 */
+    background-color: #2563eb; /* Tailwind's bg-blue-600 */
+    color: white; /* Tailwind's text-white */
+    border-radius: 0.5rem; /* Tailwind's rounded-lg */
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05); /* Tailwind's shadow */
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Tailwind's transition */
+  }
+  
+  /* Hover Effects */
+  .button:hover {
+    background-color: #1e40af; /* Tailwind's hover:bg-blue-700 */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow on hover */
+  }
+  
+  /* Focus Effects */
+  .button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* Tailwind's focus:ring-blue-500 */
+  }
+  
+  /* Add offset for focus */
+  .button:focus-visible {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* Tailwind's focus:ring-offset-2 */
+  }
+  

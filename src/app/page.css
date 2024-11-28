@@ -286,7 +286,7 @@
 /* Small Phones (max-width: 480px) */
 @media (max-width: 480px) {
   .animated-letter {
-    font-size: 3rem; /* Adjust size for smaller phones */
+    font-size: 3.5rem; /* Adjust size for smaller phones */
   }
     .loading-text-1 , .loading-text-2 {
       display: none;

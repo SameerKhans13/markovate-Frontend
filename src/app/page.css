@@ -3,7 +3,7 @@
   position: relative;
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: #000;
+  background-color:black;
 }
 
 /* Progress Bar */
@@ -22,7 +22,7 @@
 .loader {
   position: fixed;
   inset: 0;
-  background-color: #000;
+  /* background-color: #000; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,21 +36,6 @@
 }
 
 /* Particle Background */
-.particles-wrapper {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.particle {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: linear-gradient(to right, #3b82f6, #8b5cf6);
-  border-radius: 50%;
-  filter: blur(1px);
-}
 .o-letter {
   font-size: 10rem;
   font-weight: bold;
@@ -95,7 +80,8 @@
   align-items: center;
   padding: 2rem;
   position: relative;
-  z-index: -33;
+  z-index: -55;
+  background-color: transparent;
 }
 
 .hero-title {
@@ -278,7 +264,11 @@
     font-size: 1.2rem;
   }
 }
-
+@media (max-width: 1024px) {
+  .animated-letter {
+    font-size: 4.5rem; /* Adjust size for larger phones */
+  }
+}
 
 @media (max-width: 768px) {
   .animated-letter {
@@ -298,11 +288,18 @@
   .animated-letter {
     font-size: 3rem; /* Adjust size for smaller phones */
   }
+    .loading-text-1 , .loading-text-2 {
+      display: none;
+    }
+  
 }
 
 /* Extra Small Phones (max-width: 360px) */
 @media (max-width: 360px) {
   .animated-letter {
     font-size: 2.5rem; /* Adjust size for very small screens */
+  }
+  .loading-text-1 , .loading-text-2 {
+    display: none;
   }
 }

@@ -1,0 +1,218 @@
+.dashboard-container {
+    max-height: 100svh;
+    max-width: 100svw;
+    background: linear-gradient(135deg, #001764, #01000c);
+
+  }
+  body{
+    background: linear-gradient(135deg, #001764, #01000c);
+  }
+  
+  .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #0033bdc0;
+    color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 50;
+  }
+  
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .navbar-actions {
+    margin-right: 5%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .notifications {
+    position: relative;
+  }
+  
+  .notifications-button {
+    font-size: 1.25rem;
+    position: relative;
+  }
+  
+  .notification-count {
+    position: absolute;
+    top: -15px;
+    right: -5px;
+    background-color: #ef4444;
+    color: white;
+    font-size: 0.75rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .notification-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 18rem;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .notification-item {
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    cursor: pointer;
+  }
+  
+  .notification-item:last-child {
+    border-bottom: none;
+  }
+  
+  .notification-icon {
+    font-size: 1.5rem;
+    color: #3b82f6;
+  }
+  
+  .notification-title {
+    font-weight: 500;
+    color: #374151;
+  }
+  
+  .notification-message {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .profile-text {
+    display: none;
+  }
+  
+  .profile-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: white;
+    color: #1d4ed8;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  
+  /* Main Content */
+  .main-content {
+    max-width: 60rem;
+    margin: 6rem auto 2rem;
+    padding: 0 1rem;
+    
+  }
+  
+  .main-heading {
+    font-size: 3rem;
+    color: #ffffff;
+    margin-bottom: 2.5rem;
+    position: relative;
+    padding-left: 0.5rem;
+    background-color: transparent;
+    background: linear-gradient(to right, #6da5ff, #c0a4ff, #ff9cce,#bfa3ff,#eea1c8, #8eb9ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .main-heading::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    width: 0.25rem;
+    height: 80%;
+    background: #ffffffba;
+    border-radius: 0.25rem;
+  }
+  
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .card {
+    background: linear-gradient(45deg, 
+    rgba(90, 152, 252, 0.636), 
+    rgba(138, 92, 246, 0.464), 
+    rgba(236, 72, 154, 0.479)
+  );
+    padding: 0.3%;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .card-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 auto 1rem;
+    background: #ffffff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  
+  .card-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #ffc800;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-description {
+    font-size: 0.875rem;
+    color: #fcfdff;
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-button {
+    background: #00fffb;
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgb(0, 0, 0);
+    padding: 0.5rem 1.5rem;
+    transition: background 0.2s ease;
+    border-radius: 10px;
+  }
+  
+  .card-button:hover {
+    background: #06ff02;
+  }
+  
+  .card-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  

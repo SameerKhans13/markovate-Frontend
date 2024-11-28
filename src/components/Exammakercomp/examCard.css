@@ -1,0 +1,36 @@
+/* Card base styles */
+.card {
+    background-color: #ffffff; /* White background */
+    border: 1px solid #e5e7eb; /* Light gray border (Tailwind's border-gray-200) */
+    border-radius: 0.5rem; /* Rounded corners (Tailwind's rounded-lg) */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+    overflow: hidden;
+    transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow on hover */
+  }
+  
+  /* Card Header */
+  .card-header {
+    padding: 1rem; /* Spacing inside the header (Tailwind's p-4) */
+    background-color: #f9fafb; /* Light gray background (Tailwind's bg-gray-50) */
+    border-bottom: 1px solid #e5e7eb; /* Bottom border (Tailwind's border-gray-200) */
+  }
+  
+  /* Card Title */
+  .card-title {
+    font-size: 1.25rem; /* Larger font size (Tailwind's text-lg) */
+    font-weight: 600; /* Semi-bold font (Tailwind's font-semibold) */
+    color: #1f2937; /* Dark gray text (Tailwind's text-gray-800) */
+    margin: 0;
+  }
+  
+  /* Card Content */
+  .card-content {
+    padding: 1rem; /* Spacing inside the content area (Tailwind's p-4) */
+    color: #4b5563; /* Gray text (Tailwind's text-gray-600) */
+    font-size: 0.875rem; /* Smaller font size (Tailwind's text-sm) */
+  }
+  

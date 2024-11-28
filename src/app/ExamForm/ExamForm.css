@@ -1,0 +1,86 @@
+/* Styles for the CreateTestForm component */
+.create-test-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #001764, #01000c);
+  }
+  .label {
+    color: #ffffff; /* White text color */
+  }
+  
+  .form-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: rgba(1, 45, 62, 0.963);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  
+  .form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .footer-text {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #ffffff; /* Gray text color */
+    margin-top: 1rem;
+  }
+  
+  input:focus, button:focus {
+    outline: none;
+  }
+  
+  input, button {
+    transition: border-color 0.2s ease;
+  }
+  
+  input:focus {
+    border-color: #2563eb; /* Blue focus border */
+  }
+  
+  button:disabled {
+    background-color: #d1d5db; /* Light gray for disabled button */
+    cursor: not-allowed;
+  }
+  
+  /* Optional: Customize Button if needed */
+  button {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #1d4ed8; /* Darker blue on hover */
+  }
+  
+  button:disabled:hover {
+    background-color: #d1d5db;
+  }
+  
+  .card-header {
+    background-color:transparent;
+    border-bottom: 1px solid;
+  }
+  .text-2xl{
+    color: #ffffff;
+    align-items: center;
+    text-align: center;
+    font-size: 3rem;
+    background-color: transparent;
+    background: linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }

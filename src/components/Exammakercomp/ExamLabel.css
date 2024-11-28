@@ -1,0 +1,22 @@
+/* Base styles for the label */
+.label {
+    font-size: 1rem; /* Default font size (Tailwind's text-base) */
+    font-weight: 600; /* Semi-bold text */
+    color: #333333; /* Dark gray text */
+    display: inline-block; /* Block-level element */
+    margin-bottom: 0.25rem; /* Small margin below the label (Tailwind's mb-1) */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: color 0.2s ease; /* Smooth color transition */
+  }
+  
+  /* Focused or hovered state for label (Optional for interaction) */
+  .label:hover {
+    color: #2563eb; /* Change to blue color on hover */
+  }
+  
+  /* If the label has a custom class, it can override base styles */
+  .custom-label {
+    color: #4caf50; /* Green color for custom class */
+    font-size: 1.25rem; /* Larger font size */
+  }
+  

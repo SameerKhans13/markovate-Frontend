@@ -1,7 +1,9 @@
 "use client";
 
-import React from 'react';
-import './footer.css';
+import React from "react";
+import Image from "next/image";
+import "./footer.css";
+import Link from "next/link";
 
 export default function PremiumFooter() {
   return (
@@ -9,10 +11,12 @@ export default function PremiumFooter() {
       <div className="footer-container">
         <div className="footer-grid">
           <div className="footer-column company-info">
-            <img 
-              src="/logo.png" 
-              alt="Company Logo" 
-              className="footer-logo" 
+            <Image
+              src="/logo.png"
+              alt="Company Logo"
+              className="footer-logo"
+              width={100}
+              height={100}
             />
             <p className="company-description">
               Markovate: Pioneering AI-Powered Solutions for Modern Challenges
@@ -36,42 +40,78 @@ export default function PremiumFooter() {
           <div className="footer-column quick-links">
             <h4>Quick Links</h4>
             <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/services">Services</a></li>
-              <li><a href="/about">About Us</a></li>
-              <li><a href="/contact">Contact</a></li>
-              <li><a href="/solutions">Solutions</a></li>
+              <li>
+                <Link href="/">Home</Link>
+              </li>
+              <li>
+                <Link href="/services">Services</Link>
+              </li>
+              <li>
+                <Link href="/about">About Us</Link>
+              </li>
+              <li>
+                <Link href="/contact">Contact</Link>
+              </li>
+              <li>
+                <Link href="/solutions">Solutions</Link>
+              </li>
             </ul>
           </div>
 
           <div className="footer-column resources">
             <h4>Resources</h4>
             <ul>
-              <li><a href="/blog">Blog</a></li>
-              <li><a href="/case-studies">Case Studies</a></li>
-              <li><a href="/white-papers">White Papers</a></li>
-              <li><a href="/webinars">Webinars</a></li>
-              <li><a href="/downloads">Downloads</a></li>
+              <li>
+                <Link href="/blog">Blog</Link>
+              </li>
+              <li>
+                <Link href="/case-studies">Case Studies</Link>
+              </li>
+              <li>
+                <Link href="/white-papers">White Papers</Link>
+              </li>
+              <li>
+                <Link href="/webinars">Webinars</Link>
+              </li>
+              <li>
+                <Link href="/downloads">Downloads</Link>
+              </li>
             </ul>
           </div>
 
           <div className="footer-column legal">
             <h4>Legal</h4>
             <ul>
-              <li><a href="/privacy">Privacy Policy</a></li>
-              <li><a href="/terms">Terms of Service</a></li>
-              <li><a href="/compliance">Compliance</a></li>
-              <li><a href="/cookies">Cookie Policy</a></li>
+              <li>
+                <Link href="/privacy">Privacy Policy</Link>
+              </li>
+              <li>
+                <Link href="/terms">Terms of Service</Link>
+              </li>
+              <li>
+                <Link href="/compliance">Compliance</Link>
+              </li>
+              <li>
+                <Link href="/cookies">Cookie Policy</Link>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
           <div className="social-links">
-            <a href="#" className="social-icon">Facebook</a>
-            <a href="#" className="social-icon">LinkedIn</a>
-            <a href="#" className="social-icon">Twitter</a>
-            <a href="#" className="social-icon">Instagram</a>
+            <Link href="#" className="social-icon">
+              Facebook
+            </Link>
+            <Link href="#" className="social-icon">
+              LinkedIn
+            </Link>
+            <Link href="#" className="social-icon">
+              Twitter
+            </Link>
+            <Link href="#" className="social-icon">
+              Instagram
+            </Link>
           </div>
           <div className="copyright">
             © {new Date().getFullYear()} Markovate. All Rights Reserved.

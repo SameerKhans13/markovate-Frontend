@@ -1,99 +1,112 @@
-"use client";
-import React, { useState } from 'react';
-import "./ExamPortal.css"
+"use client"; // Required for client-side interactivity in Next.js 13+
 
-interface QuestionData {
+import React, { useState } from "react";
+import "./ExamPortal.css";
+
+interface Question {
+  id: number;
   question: string;
   marks: string;
   keywords: string;
 }
 
 const TeacherExamPortal: React.FC = () => {
-  const [questions, setQuestions] = useState<QuestionData[]>([]);
-  const [formData, setFormData] = useState<QuestionData>({
-    question: '',
-    marks: '',
-    keywords: '',
-  });
-  const [errors, setErrors] = useState<Record<string, boolean>>({});
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
 
-  const resetFormData = () => {
-    setFormData({ question: '', marks: '', keywords: '' });
+  const addQuestion = () => {
+    setQuestions([
+      ...questions,
+      { id: questions.length, question: "", marks: "", keywords: "" },
+    ]);
   };
 
-  const validateForm = (): boolean => {
-    const newErrors: Record<string, boolean> = {};
+  const handleInputChange = (
+    id: number,
+    field: keyof Question,
+    value: string
+  ) => {
+    setQuestions(
+      questions.map((q) => (q.id === id ? { ...q, [field]: value } : q))
+    );
+    if (value.trim()) {
+      setErrors((prev) => ({ ...prev, [`${field}-${id}`]: false }));
+    }
+  };
+
+  const validateQuestion = (question: Question): boolean => {
+    const newErrors: { [key: string]: boolean } = {};
     let isValid = true;
 
-    Object.keys(formData).forEach((key) => {
-      if (!formData[key as keyof QuestionData].trim()) {
-        newErrors[key] = true;
+    ["question", "marks", "keywords"].forEach((field) => {
+      if (!question[field as keyof Question].toString().trim()) {
+        newErrors[`${field}-${question.id}`] = true;
         isValid = false;
       }
     });
 
-    setErrors(newErrors);
+    setErrors((prev) => ({ ...prev, ...newErrors }));
     return isValid;
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    const isValid = questions.every(validateQuestion);
 
-    setQuestions((prev) => [...prev, formData]);
-    setSuccessMessage('Question added successfully!');
-    setTimeout(() => setSuccessMessage(null), 3000);
-    resetFormData();
+    if (isValid) {
+      console.log("Submitted questions:", questions);
+      setQuestions([]);
+      setErrors({});
+    }
   };
 
   return (
-    <div className="teacher-exam-portal">
-      <div className="form-container">
-        <div className="header">
-          <h1>Teacher Exam Portal</h1>
+    <div className="portal-container">
+
+      <div className="content-container">
+        <h1 className="portal-title">Teacher Exam Portal</h1>
+
+        <div className="questions-container">
+          {questions.map((q, index) => (
+            <div key={q.id} className="question-card">
+              <h3 className="question-number">Question {index + 1}</h3>
+
+              {(["question", "marks", "keywords"] as const).map((field) => (
+                <div key={field} className="input-group">
+                  <label className="input-label">
+                    {field.charAt(0).toUpperCase() + field.slice(1)}
+                  </label>
+                  <textarea
+                    className={`input-field ${
+                      errors[`${field}-${q.id}`] ? "error" : ""
+                    }`}
+                    rows={field === "question" ? 4 : 3}
+                    value={q[field]}
+                    onChange={(e) =>
+                      handleInputChange(q.id, field, e.target.value)
+                    }
+                    placeholder={`Enter ${field} here`}
+                  />
+                  {errors[`${field}-${q.id}`] && (
+                    <div className="error-message">
+                      {field.charAt(0).toUpperCase() + field.slice(1)} is
+                      required
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
-        <form onSubmit={handleSubmit} className="form-content">
-          <div className="form-field">
-            <textarea
-              name="question"
-              value={formData.question}
-              onChange={handleInputChange}
-              placeholder="Enter question"
-              className={`input-textarea ${errors.question ? 'error' : ''}`}
-            />
-          </div>
-          <div className="form-field">
-            <textarea
-              name="marks"
-              value={formData.marks}
-              onChange={handleInputChange}
-              placeholder="Enter marks"
-              className={`input-textarea ${errors.marks ? 'error' : ''}`}
-            />
-          </div>
-          <div className="form-field">
-            <textarea
-              name="keywords"
-              value={formData.keywords}
-              onChange={handleInputChange}
-              placeholder="Enter keywords"
-              className={`input-textarea ${errors.keywords ? 'error' : ''}`}
-            />
-          </div>
-          <button type="submit" className="submit-btn">
-            Submit
+
+        <div className="button-container">
+          <button onClick={addQuestion} className="button secondary">
+            + Add Question
           </button>
-        </form>
-        {successMessage && <p className="success-message">{successMessage}</p>}
+          <button onClick={handleSubmit} className="button primary">
+            Post Test
+          </button>
+        </div>
       </div>
     </div>
   );

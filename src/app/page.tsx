@@ -71,7 +71,7 @@ const AnimatedText = ({
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
-      transition: { staggerChildren: 0.03, delayChildren: 0.04 * i },
+      transition: { staggerChildren: 0.03, delayChildren: 0.01 * i },
     }),
   };
 
@@ -216,9 +216,9 @@ const AnimatedLanding = () => {
                     borderRadius: ["20%", "50%", "20%"],
                   }}
                   transition={{
-                    duration: 2,
+                    duration: 1.5,
                     ease: "easeInOut",
-                    repeat: Infinity,
+                    repeat: 2,
                   }}
                 />
                 <AnimatedText text="VATE" className="loading-text-2" />

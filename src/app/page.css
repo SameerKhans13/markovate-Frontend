@@ -37,7 +37,7 @@
 
 /* Particle Background */
 .o-letter {
-  font-size: 10rem;
+  font-size: 1rem;
   font-weight: bold;
   background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
   -webkit-background-clip: text;
@@ -62,7 +62,7 @@
   display: inline-block;
   filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.3));
   transform-style: preserve-3d;
-  animation: ease-in-out 5s infinite;
+  animation: ease-in-out 0.5s infinite;
 }
 .letter-o {
   position: relative;

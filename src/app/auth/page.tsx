@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { motion, AnimatePresence, m } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import BGAnimation from "../../components/Backgroundanimation/Bganimation";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import "./page.css";
 import { useRouter } from "next/navigation";
 
-const LoginPage = () => {
+const Page = () => {
 const router = useRouter();
 
   const [selectedRole, setSelectedRole] = useState<string | null>(null); // Store "student" or "teacher"
@@ -76,7 +76,7 @@ const router = useRouter();
   console.log(posts);
     setIsVerificationModalOpen(false);
 //     alert(`Data sent to the admin with role: ${selectedRole}`);
-//   };
+   };
 
   const tabVariants = {
     initial: { opacity: 0, scale: 0.8 },
@@ -233,6 +233,6 @@ const router = useRouter();
     </>
   );
 };
-}
 
-export default LoginPage;
+
+export default Page;

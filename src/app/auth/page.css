@@ -16,17 +16,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: black;
 }
 
-body, html {
+body{
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
-  background: linear-gradient(
-    135deg, 
-    var(--background-start) 0%, 
-    var(--background-end) 100%
-  );
+  background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
   overflow-x: hidden;
 }
 
@@ -37,64 +32,63 @@ body, html {
   min-height: 100vh;
   position: relative;
   perspective: 1000px;
-  color:white;
+  color: var(--white);
+  background-color: black;
 }
 
 .login-container {
-  background: rgba(24, 3, 97, 0.553);
+  background: rgba(24, 3, 97, 0.7);
   backdrop-filter: blur(15px);
   border-radius: 24px;
-  box-shadow: 
-    0 30px 60px -10px rgba(0, 0, 0, 0.1),
-    0 15px 25px -10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.3), 0 15px 25px -10px rgba(0, 0, 0, 0.2);
   padding: 2.5rem;
   width: 100%;
   max-width: 450px;
   position: relative;
   z-index: 10;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.4s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
 }
 
 .login-container:hover {
   transform: translateY(-10px) rotateX(3deg);
-  box-shadow: 
-    0 40px 70px -15px rgba(218, 215, 215, 0.15),
-    0 20px 35px -15px rgba(224, 223, 223, 0.676);
+  box-shadow: 0 40px 70px -15px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
-  color: white;
+  color: var(--white);
   text-align: center;
   margin-bottom: 2rem;
   font-size: 2.2rem;
   font-weight: 700;
   letter-spacing: -1px;
-  background-color: transparent;
 }
 
 .role-buttons {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
-  background-color: transparent;
 }
 
 .role-btn {
   flex: 1;
   padding: 1rem;
+  margin: 10px;
   border: none;
   border-radius: 15px;
   background: var(--primary-color);
-  color: white;
+  color: var(--white);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width:150px;
   gap: 0.7rem;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 10px 25px -5px rgba(74, 108, 247, 0.3);
 }
 
@@ -105,22 +99,45 @@ h1 {
 .role-btn:hover {
   background: var(--secondary-color);
   transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 15px 35px -5px rgba(74, 108, 247, 0.4);
+  box-shadow: 0 15px 35px -5px rgba(74, 108, 247, 0.5);
 }
 
-.role-btn.expanded {
-  width: 100%;
-  background: var(--accent-color);
+.tab-switcher {
+  margin-bottom: 20px;
+  
 }
 
-.sign-in-box {
-  animation: fadeIn 0.6s ease;
-  background-color: transparent;
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  background: var(--primary-color);;
+  color: var(--white);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-weight: 600;
+  font-size:1.25rem;
+   align-items: center;
+   width:150px;
+}
+
+.tab-btn.active {
+  background: var(--primary-color);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.tab-btn:hover {
+  background: var(--secondary-color);
+  color: var(--white);
 }
 
 .input-group {
-  position: relative;
   margin-bottom: 1.5rem;
+  position: relative;
 }
 
 .input-group i {
@@ -132,89 +149,112 @@ h1 {
   transition: color 0.3s ease;
 }
 
-input {
+.input-group input {
   width: 100%;
   padding: 1rem 1rem 1rem 3.5rem;
-  border: 2px solid rgba(91, 100, 116, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 15px;
   font-size: 1rem;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
-  background: rgba(244, 243, 243, 0.726);
 }
 
-input:focus {
+.input-group input:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.1);
-  
+  box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.2);
 }
 
-input:focus + i {
+.input-group input:focus + i {
   color: var(--primary-color);
 }
 
 .sign-in-btn {
   width: 100%;
   padding: 1rem;
-  background-color:#0066ffd0;
-  color: white;
+  background: var(--accent-color);
+  color: var(--white);
   border: none;
   border-radius: 15px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 1rem;
-  box-shadow: 0 15px 25px -5px rgba(0, 208, 255, 0.427);
+  box-shadow: 0 10px 25px -5px rgba(93, 122, 255, 0.3);
 }
 
 .sign-in-btn:hover {
   background: var(--secondary-color);
   transform: translateY(-3px);
-  box-shadow: 0 20px 30px -5px rgba(74, 108, 247, 0.4);
+  box-shadow: 0 15px 30px -5px rgba(93, 122, 255, 0.5);
 }
 
-h3 ,.forgot-password,a{
-  background-color: transparent;
-
-}
-
-
-.forgot-password{
-  margin-top: 4%;
-  margin-bottom: 8%;
-}
-#remember-student{
-  margin-top: 4%;
-  margin-left: 8%;
-}
-#remember-teacher{
-  margin-top: 4%;
-  margin-left: 8%;
-}
 .remember-me {
   display: flex;
-  align-items:flex-end;/* Aligns items vertically */
-  gap: 0.5rem; /* Adds space between checkbox and text */
-  color: white;
-  font-size: 0.9rem; /* Adjust font size if needed */
-  background-color: transparent;
-}
-
-.remember-me input[type="checkbox"] {
-  margin: 0; /* Removes extra default margins */
-  width: 18px; /* Optional: Sets a consistent size for the checkbox */
-  height: 18px;
-  margin-bottom: 10px;
-  background-color: transparent;
-}
-
-
-label {
-  display: inline-flex; /* Ensures proper alignment */
   align-items: center;
-  gap: 0.5rem; /* Space between checkbox and text */
-  color: white;
-  margin-bottom: 3%;
-  margin-left: 25px;
-  background-color: transparent;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--white);
+}
+
+.remember-me input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.verification-modal {
+  position: fixed;
+  font-size: 1.5rem;
+  top: 30%;
+  left: 40%;
+  width: 300px;
+  padding: 20px;
+  border-radius: 10px;
+  background: lightskyblue;
+  color: var(--text-primary);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  z-index: 400;
+}
+
+.modal-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: var(--white);
+  background: var(--primary-color);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-btn:hover {
+  background: var(--secondary-color);
+}
+h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.75rem;
+}
+.form-btn{
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+  margin:0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 1rem;
+  background: var(--accent-color);
+  color: var(--white);
+  border: none;
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1rem;
+  box-shadow: 0 10px 25px -5px rgba(93, 122, 255, 0.3);
 }

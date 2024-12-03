@@ -1,17 +1,23 @@
 "use client";
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/Exammakercomp/examCard';
-import Input from '../../components/Exammakercomp/ExamInput';
-import Label from '../../components/Exammakercomp/ExamLabel';
-import Button from '../../components/Exammakercomp/Button2';
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/Exammakercomp/examCard";
+import Input from "../../components/Exammakercomp/ExamInput";
+import Label from "../../components/Exammakercomp/ExamLabel";
+import Button from "../../components/Exammakercomp/Button2";
 import "./ExamForm.css";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
 
-const CreateTestForm = () => {
-  const [testTitle, setTestTitle] = useState('');
-  const [testTime, setTestTime] = useState('');
-  const [maxMarks, setMaxMarks] = useState('');
+const Page = () => {
+  const [testTitle, setTestTitle] = useState("");
+  const [testTime, setTestTime] = useState("");
+  const [maxMarks, setMaxMarks] = useState("");
   const [loading, setLoading] = useState(false);
 
   const createTest = async () => {
@@ -19,8 +25,8 @@ const CreateTestForm = () => {
       setLoading(true);
       try {
         const response = await fetch(`${API_BASE_URL}/api/tests`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             title: testTitle,
             maxTime: parseInt(testTime, 10),
@@ -30,22 +36,22 @@ const CreateTestForm = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setTestTitle('');
-          setTestTime('');
-          setMaxMarks('');
+          setTestTitle("");
+          setTestTime("");
+          setMaxMarks("");
           alert(`Test Created Successfully!\nTest ID: ${data.test._id}`);
         } else {
           const errorData = await response.json();
           alert(`Error: ${errorData.error}`);
         }
       } catch (error) {
-        console.error('Error:', error);
-        alert('Something went wrong. Please try again.');
+        console.error("Error:", error);
+        alert("Something went wrong. Please try again.");
       } finally {
         setLoading(false);
       }
     } else {
-      alert('Please fill out all fields!');
+      alert("Please fill out all fields!");
     }
   };
 
@@ -74,7 +80,7 @@ const CreateTestForm = () => {
                 type="number"
                 placeholder="Enter time limit"
                 value={testTime}
-                onChange={(e) => setTestTime(e.target.value.replace('e', ''))}
+                onChange={(e) => setTestTime(e.target.value.replace("e", ""))}
                 min={1}
                 required
               />
@@ -92,7 +98,7 @@ const CreateTestForm = () => {
               />
             </div>
             <Button onClick={createTest} className="w-full" disabled={loading}>
-              {loading ? 'Creating...' : 'Create Test'}
+              {loading ? "Creating..." : "Create Test"}
             </Button>
           </div>
           <p className="footer-text">Powered by Markovate</p>
@@ -102,4 +108,4 @@ const CreateTestForm = () => {
   );
 };
 
-export default CreateTestForm;
+export default Page;

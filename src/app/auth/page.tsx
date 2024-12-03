@@ -1,54 +1,89 @@
 "use client";
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, m } from "framer-motion";
 import BGAnimation from "../../components/Backgroundanimation/Bganimation";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import "./page.css";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
-  const [selectedRole, setSelectedRole] = useState<string | null>(null);
+const router = useRouter();
 
+  const [selectedRole, setSelectedRole] = useState<string | null>(null); // Store "student" or "teacher"
+  const [selectedTab, setSelectedTab] = useState<"login" | "signup" | null>(
+    null
+  ); // Store active tab for Login/Signup
+  const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [email1 , setEmail1] = useState("");
+  const [password1 , setPassword1] = useState("");
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
   };
 
-  const resetView = () => {
-    setSelectedRole(null);
+  const handleTabSwitch = (tab: "login" | "signup") => {
+    setSelectedTab(tab);
   };
 
-  const backgroundVariants = {
-    initial: { opacity: 0, scale: 0.9 },
+  const handleLogin =async () => {
+    const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email1,
+          password1,
+          selectedRole
+        }),
+      };
+      let data = await fetch("http://localhost:8787/auth/signin", options);
+      let posts = await data.json();
+      console.log(posts);
+    // alert(
+    //   `Sign-In Successful as a ${selectedRole}! (Send login data to backend)`
+    // );
+      router.push("../dashboard/"+selectedRole+"-dashboard");
+  };
+
+  const handleSignup = async () => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    };
+    let data = await fetch("http://localhost:8787/auth/signup", options);
+    let posts = await data.json();
+    console.log(posts);
+    setIsVerificationModalOpen(true);
+  };
+
+  const closeVerificationModal = async () => {
+    const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+  };
+  let data = await fetch("http://localhost:8787/auth/getverified", options);
+  let posts = await data.json();
+  console.log(posts);
+    setIsVerificationModalOpen(false);
+//     alert(`Data sent to the admin with role: ${selectedRole}`);
+//   };
+
+  const tabVariants = {
+    initial: { opacity: 0, scale: 0.8 },
     animate: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.6, type: "spring", stiffness: 70 },
-    },
-    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.3 } },
-  };
-
-  const buttonVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, type: "spring", stiffness: 120 },
-    },
-    hover: { scale: 1.05, transition: { duration: 0.2 } },
-    tap: { scale: 0.95 },
-  };
-
-  const formVariants = {
-    initial: { opacity: 0, x: selectedRole === "student" ? -50 : 50 },
-    animate: {
-      opacity: 1,
-      x: 0,
       transition: { duration: 0.5, type: "spring", stiffness: 100 },
-    },
-    exit: {
-      opacity: 0,
-      x: selectedRole === "student" ? -50 : 50,
-      transition: { duration: 0.3 },
     },
   };
 
@@ -59,139 +94,145 @@ const LoginPage = () => {
         <Header />
         <motion.div
           className="login-container"
-          variants={backgroundVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, type: "spring" }}
         >
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, type: "spring" }}
-          >
-            Welcome Back!
-          </motion.h1>
-
-          {/* Role Selection Buttons */}
+          {/* Step 1: Role Selection */}
           <AnimatePresence>
             {!selectedRole && (
               <motion.div
-                className="role-buttons"
+                className="role-selection"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                style={{ display: "flex", justifyContent: "space-between" }}
               >
-                <motion.button
-                  key="student-btn"
+                <h3>Select Your Role</h3>
+                <button
                   className="role-btn"
                   onClick={() => handleRoleSelect("student")}
-                  variants={buttonVariants}
-                  initial="initial"
-                  animate="animate"
-                  whileHover="hover"
-                  whileTap="tap"
                 >
                   <i className="fas fa-user-graduate"></i> Student
-                </motion.button>
-
-                <motion.button
-                  key="teacher-btn"
+                </button>
+                <button
                   className="role-btn"
                   onClick={() => handleRoleSelect("teacher")}
-                  variants={buttonVariants}
-                  initial="initial"
-                  animate="animate"
-                  whileHover="hover"
-                  whileTap="tap"
                 >
                   <i className="fas fa-chalkboard-teacher"></i> Teacher
-                </motion.button>
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Role-specific Content */}
+          {/* Step 2: Login/Signup Tabs */}
           <AnimatePresence>
-            {selectedRole && (
+            {selectedRole && !selectedTab && (
               <motion.div
-                key={selectedRole}
-                className="sign-in-box"
-                variants={formVariants}
+                className="tab-switcher"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <h3>{`Proceed as ${selectedRole}`}</h3>
+                <button
+                  className="tab-btn"
+                  onClick={() => handleTabSwitch("login")}
+                >
+                  Login
+                </button>
+                <button
+                  className="tab-btn"
+                  onClick={() => handleTabSwitch("signup")}
+                >
+                  Signup
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Step 3: Login/Signup Form */}
+          <AnimatePresence>
+            {selectedTab === "login" && (
+              <motion.div
+                key="login"
+                className="form-container"
+                variants={tabVariants}
                 initial="initial"
                 animate="animate"
-                exit="exit"
+                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.3 } }}
               >
-                <motion.h3
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  {selectedRole === "student"
-                    ? "Student Login"
-                    : "Teacher Login"}
-                </motion.h3>
+                <h3>SignIn / Login</h3>
+                <div className="input-group">
+                  <input type="email" placeholder="Email Address" onChange={(e) => setEmail1(e.target.value)}/>
+                </div>
+                <div className="input-group">
+                  <input type="password" placeholder="Password" onChange={(e) => setPassword1(e.target.value)} />
+                </div>
+                <button className="form-btn" onClick={handleLogin}>
+                  Login
+                </button>
+              </motion.div>
+            )}
 
-                <motion.div
-                  className="input-group"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <i className="fas fa-id-card"></i>
+            {selectedTab === "signup" && (
+              <motion.div
+                key="signup"
+                className="form-container"
+                variants={tabVariants}
+                initial="initial"
+                animate="animate"
+                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.3 } }}
+              >
+                <h3>Signup</h3>
+
+                <div className="input-group">
                   <input
-                    type="text"
-                    placeholder={`${
-                      selectedRole === "student" ? "Student" : "Teacher"
-                    } ID`}
+                    type="email"
+                    placeholder="Email Address"
+                    onChange={(e) => setEmail(e.target.value)}
                   />
-                </motion.div>
-
-                <motion.div
-                  className="input-group"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <i className="fas fa-lock"></i>
-                  <input type="password" placeholder="Password" />
-                </motion.div>
-                <motion.div
-                  className="remember-me"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <input type="checkbox" id={`remember-${selectedRole}`} />
-                  <label htmlFor={`remember-${selectedRole}`}>
-                    Remember me
-                  </label>
-                </motion.div>
-
-                <motion.div
-                  className="forgot-password"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <a href="#">Forgot password?</a>
-                </motion.div>
-
-                <motion.button
-                  className="sign-in-btn"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                >
-                  Sign In
-                </motion.button>
+                </div>
+                <div className="input-group">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <button className="form-btn" onClick={handleSignup}>
+                  Signup
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
         </motion.div>
+
+        {/* Verification Modal */}
+        <AnimatePresence>
+          {isVerificationModalOpen && (
+            <motion.div
+              className="verification-modal"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h2>Welcome!</h2>
+              <p>
+                Thanks for signing up! We just need you to verify your email
+                address to complete setting up your account.
+              </p>
+              <button className="modal-btn" onClick={closeVerificationModal}>
+                Verify My Email
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <Footer />
     </>
   );
 };
+}
 
 export default LoginPage;

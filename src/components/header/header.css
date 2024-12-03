@@ -117,6 +117,7 @@ header > .head > .desktop-nav > .navopt:hover::before {
     cursor: pointer;
     color: white;
     z-index: 10001;
+    background-color: transparent;
 }
 
 /* Mobile Navigation Overlay */
@@ -147,6 +148,7 @@ header > .head > .desktop-nav > .navopt:hover::before {
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 0.5s, transform 0.5s;
+    background-color: transparent;
 }
 
 .mobile-nav-overlay.open .mobile-nav-content {

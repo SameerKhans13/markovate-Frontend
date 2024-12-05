@@ -44,7 +44,7 @@ const Page = () => {
           setSubject("");
           alert("Test Created Successfully!");
           router.refresh();
-          router.push("/tests");
+          router.push("/ExamPortal");
         } else {
           alert(data.error || "Something went wrong");
         }

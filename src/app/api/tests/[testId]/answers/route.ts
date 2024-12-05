@@ -1,5 +1,7 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export async function POST(
   request: Request,
@@ -9,27 +11,38 @@ export async function POST(
     const { answers } = await request.json();
     const testId = parseInt(params.testId);
 
-    // In a real application, you would get the studentId from the session
-    const studentId = 1; // Replace with actual student ID from auth
+    // Verify the test exists
+    const test = await prisma.test.findUnique({
+      where: { id: testId },
+      include: { questions: true },
+    });
 
+    if (!test) {
+      return NextResponse.json({ error: 'Test not found' }, { status: 404 });
+    }
+
+    // Create all answers in a transaction
     const createdAnswers = await prisma.$transaction(
-      answers.map((answer: { questionId: number; text: string }) =>
-        prisma.answer.create({
+      answers.map((answer: { questionId: number; text: string }) => {
+        return prisma.answer.create({
           data: {
             text: answer.text,
-            questionId: answer.questionId,
-            studentId,
+            question: { connect: { id: answer.questionId } },
+            student: { connect: { id: 1 } },
           },
-        })
-      )
+        });
+      })
     );
 
     return NextResponse.json({
-      message: "Answers submitted successfully",
       success: true,
       answers: createdAnswers,
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    console.error('Error submitting answers:', error);
+    return NextResponse.json(
+      { error: 'Failed to submit answers' },
+      { status: 500 }
+    );
   }
 } 

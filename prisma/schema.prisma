@@ -81,5 +81,16 @@ model Answer {
   questionId  Int
   student     User     @relation(fields: [studentId], references: [id])
   studentId   Int
+  result      Result?
+}
+
+model Result {
+  id          Int      @id @default(autoincrement())
+  answer      Answer   @relation(fields: [answerId], references: [id])
+  answerId    Int      @unique
+  score       Float    // Score calculated by GPT
+  feedback    String?  // Feedback from GPT
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 

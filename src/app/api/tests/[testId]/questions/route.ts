@@ -1,5 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { QuestionType } from "@prisma/client";
+
+interface QuestionInput {
+  text: string;
+  marks: number;
+  type: QuestionType;
+  correctAnswer: string;
+  options: string[];
+}
 
 export async function POST(
   request: Request,
@@ -9,13 +18,33 @@ export async function POST(
     const { questions } = await request.json();
     const testId = parseInt(params.testId);
 
-    const createdQuestions = await prisma.question.createMany({
-      data: questions.map((q: any) => ({
-        ...q,
-        testId,
-        type: "SHORT_ANSWER",
-      })),
+    // Validate testId
+    const test = await prisma.test.findUnique({
+      where: { id: testId },
     });
+
+    if (!test) {
+      return NextResponse.json(
+        { error: "Test not found" },
+        { status: 404 }
+      );
+    }
+
+    // Create all questions in a transaction
+    const createdQuestions = await prisma.$transaction(
+      questions.map((q: QuestionInput) =>
+        prisma.question.create({
+          data: {
+            text: q.text,
+            type: q.type,
+            marks: q.marks,
+            options: q.options || [],
+            correctAnswer: q.correctAnswer,
+            testId: testId,
+          },
+        })
+      )
+    );
 
     return NextResponse.json({
       message: "Questions added successfully",
@@ -23,6 +52,10 @@ export async function POST(
       questions: createdQuestions,
     });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Error creating questions:", error);
+    return NextResponse.json(
+      { error: error.message || "Failed to create questions" },
+      { status: 500 }
+    );
   }
 } 

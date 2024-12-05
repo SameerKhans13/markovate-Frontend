@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import "./stuportal.css";
 
 interface Question {
@@ -31,6 +32,7 @@ interface Answer {
 }
 
 const StudentPortal = () => {
+  const router = useRouter();
   const [tests, setTests] = useState<Test[]>([]);
   const [selectedTest, setSelectedTest] = useState<Test | null>(null);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
@@ -81,19 +83,27 @@ const StudentPortal = () => {
         text
       }));
 
-      const response = await fetch(`/api/tests/${selectedTest.id}/answers`, {
+      const submitResponse = await fetch(`/api/tests/${selectedTest.id}/answers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ answers: formattedAnswers }),
       });
 
-      if (response.ok) {
-        alert("Answers submitted successfully!");
-        setSelectedTest(null);
-        setAnswers({});
-      } else {
-        alert("Failed to submit answers. Please try again.");
+      if (!submitResponse.ok) {
+        throw new Error('Failed to submit answers');
       }
+
+      const { answers: submittedAnswers } = await submitResponse.json();
+
+      for (const answer of submittedAnswers) {
+        await fetch('/api/score', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ answerId: answer.id }),
+        });
+      }
+
+      router.push(`/studentportal/results?testId=${selectedTest.id}`);
     } catch (error) {
       console.error("Error submitting answers:", error);
       alert("Something went wrong. Please try again.");

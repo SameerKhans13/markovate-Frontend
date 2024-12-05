@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -11,38 +12,41 @@ import Label from "../../components/Exammakercomp/ExamLabel";
 import Button from "../../components/Exammakercomp/Button2";
 import "./ExamForm.css";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
-
 const Page = () => {
+  const router = useRouter();
   const [testTitle, setTestTitle] = useState("");
-  const [testTime, setTestTime] = useState("");
-  const [maxMarks, setMaxMarks] = useState("");
+  const [duration, setDuration] = useState("");
+  const [totalMarks, setTotalMarks] = useState("");
+  const [subject, setSubject] = useState("");
   const [loading, setLoading] = useState(false);
 
   const createTest = async () => {
-    if (testTitle && testTime && maxMarks) {
+    if (testTitle && duration && totalMarks && subject) {
       setLoading(true);
       try {
-        const response = await fetch(`${API_BASE_URL}/api/tests`, {
+        const response = await fetch("/api/tests", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             title: testTitle,
-            maxTime: parseInt(testTime, 10),
-            maxMarks: parseInt(maxMarks, 10),
+            duration: parseInt(duration, 10),
+            totalMarks: parseInt(totalMarks, 10),
+            subject,
           }),
         });
 
+        const data = await response.json();
+
         if (response.ok) {
-          const data = await response.json();
           setTestTitle("");
-          setTestTime("");
-          setMaxMarks("");
-          alert(`Test Created Successfully!\nTest ID: ${data.test._id}`);
+          setDuration("");
+          setTotalMarks("");
+          setSubject("");
+          alert("Test Created Successfully!");
+          router.refresh();
+          router.push("/tests");
         } else {
-          const errorData = await response.json();
-          alert(`Error: ${errorData.error}`);
+          alert(data.error || "Something went wrong");
         }
       } catch (error) {
         console.error("Error:", error);
@@ -74,25 +78,35 @@ const Page = () => {
               />
             </div>
             <div>
-              <Label htmlFor="testTime">Maximum Time (in minutes)</Label>
+              <Label htmlFor="subject">Subject</Label>
               <Input
-                id="testTime"
+                id="subject"
+                placeholder="Enter subject name"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="duration">Duration (in minutes)</Label>
+              <Input
+                id="duration"
                 type="number"
-                placeholder="Enter time limit"
-                value={testTime}
-                onChange={(e) => setTestTime(e.target.value.replace("e", ""))}
+                placeholder="Enter duration"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value.replace(/[eE]/g, ""))}
                 min={1}
                 required
               />
             </div>
             <div>
-              <Label htmlFor="maxMarks">Maximum Marks</Label>
+              <Label htmlFor="totalMarks">Total Marks</Label>
               <Input
-                id="maxMarks"
+                id="totalMarks"
                 type="number"
-                placeholder="Enter maximum marks"
-                value={maxMarks}
-                onChange={(e) => setMaxMarks(e.target.value)}
+                placeholder="Enter total marks"
+                value={totalMarks}
+                onChange={(e) => setTotalMarks(e.target.value.replace(/[eE]/g, ""))}
                 min={1}
                 required
               />
@@ -101,7 +115,6 @@ const Page = () => {
               {loading ? "Creating..." : "Create Test"}
             </Button>
           </div>
-          <p className="footer-text">Powered by Markovate</p>
         </CardContent>
       </Card>
     </div>

@@ -1,122 +1,188 @@
 "use client";
 
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect } from "react";
 import "./stuportal.css";
 
-// Define interfaces for type safety
 interface Question {
   id: number;
-  question: string;
+  text: string;
+  marks: number;
+  type: "MULTIPLE_CHOICE" | "TRUE_FALSE" | "SHORT_ANSWER" | "LONG_ANSWER";
+}
+
+interface Test {
+  id: number;
+  title: string;
+  description?: string;
+  subject: string;
+  duration: number;
+  totalMarks: number;
+  createdAt: string;
+  questions: Question[];
+  createdBy: {
+    firstName: string;
+    lastName: string;
+  };
 }
 
 interface Answer {
-  text?: string;
-  file?: File;
+  questionId: number;
+  text: string;
 }
 
-interface AnswerState {
-  [key: number]: Answer;
-}
+const StudentPortal = () => {
+  const [tests, setTests] = useState<Test[]>([]);
+  const [selectedTest, setSelectedTest] = useState<Test | null>(null);
+  const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
-// Example questions (can be fetched from an API in a real-world application)
-const questions: Question[] = [
-  { id: 1, question: "What is the capital of France?" },
-  { id: 2, question: "Describe the process of photosynthesis." },
-  { id: 3, question: "Explain the theory of relativity." },
-];
+  useEffect(() => {
+    fetchTests();
+  }, []);
 
-const ExamPortal: React.FC = () => {
-  const [answers, setAnswers] = useState<AnswerState>({});
+  const fetchTests = async () => {
+    try {
+      const response = await fetch("/api/tests");
+      const data = await response.json();
+      if (data.success) {
+        setTests(data.tests);
+      }
+    } catch (error) {
+      console.error("Error fetching tests:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // Handle text input changes
-  const handleTextChange = (id: number, text: string): void => {
-    setAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [id]: { ...prevAnswers[id], text },
+  const handleAnswerChange = (questionId: number, answer: string) => {
+    setAnswers(prev => ({
+      ...prev,
+      [questionId]: answer
     }));
   };
 
-  // Handle file input changes
-  const handleFileChange = (
-    id: number,
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setAnswers((prevAnswers) => ({
-        ...prevAnswers,
-        [id]: { ...prevAnswers[id], file },
-      }));
-    }
-  };
+  const handleSubmit = async () => {
+    if (!selectedTest) return;
 
-  // Handle form submission
-  const handleSubmit = (): void => {
-    const allAnswered = questions.every(
-      (q) => answers[q.id]?.text?.trim() || answers[q.id]?.file
+    const unansweredQuestions = selectedTest.questions.filter(
+      q => !answers[q.id]?.trim()
     );
 
-    if (allAnswered) {
-      alert("Exam Submitted Successfully!");
-      console.log("Submitted answers:", answers);
-    } else {
+    if (unansweredQuestions.length > 0) {
       alert("Please answer all questions before submitting.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const formattedAnswers = Object.entries(answers).map(([questionId, text]) => ({
+        questionId: parseInt(questionId),
+        text
+      }));
+
+      const response = await fetch(`/api/tests/${selectedTest.id}/answers`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers: formattedAnswers }),
+      });
+
+      if (response.ok) {
+        alert("Answers submitted successfully!");
+        setSelectedTest(null);
+        setAnswers({});
+      } else {
+        alert("Failed to submit answers. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting answers:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
   return (
-    <div className="exam-container">
-      <h1 className="exam-title">Student Exam Portal</h1>
+    <div className="student-portal">
+      <h1 className="portal-title">Student Portal</h1>
 
-      <div className="question-list">
-        {questions.map((q) => (
-          <div key={q.id} className="question-card">
-            <div className="question-header">
-              <h3>{q.question}</h3>
-            </div>
-
-            <div className="answer-section">
-              <label htmlFor={`text-${q.id}`}>Written Response:</label>
-              <textarea
-                id={`text-${q.id}`}
-                value={answers[q.id]?.text || ""}
-                onChange={(e) => handleTextChange(q.id, e.target.value)}
-                placeholder="Type your answer here..."
-                rows={4}
-                aria-label={`Answer for question ${q.id}`}
-              />
-            </div>
-
-            <div className="file-section">
-              <label htmlFor={`file-${q.id}`}>
-                Upload Supporting Document:
-              </label>
-              <div className="file-upload-container">
-                <input
-                  type="file"
-                  id={`file-${q.id}`}
-                  onChange={(e) => handleFileChange(q.id, e)}
-                  accept="image/*,.pdf,.doc,.docx"
-                  className="file-input"
-                />
-                <span className="file-name">
-                  {answers[q.id]?.file?.name || "No file selected"}
-                </span>
+      {!selectedTest ? (
+        <div className="tests-list">
+          <h2>Available Tests</h2>
+          <div className="tests-grid">
+            {tests.map((test) => (
+              <div
+                key={test.id}
+                className="test-card"
+                onClick={() => setSelectedTest(test)}
+              >
+                <h3>{test.title}</h3>
+                <p>Subject: {test.subject}</p>
+                <p>Duration: {test.duration} minutes</p>
+                <p>Total Marks: {test.totalMarks}</p>
+                <p>Questions: {test.questions.length}</p>
+                <button className="start-test-btn">Start Test</button>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ) : (
+        <div className="test-section">
+          <div className="test-header">
+            <h2>{selectedTest.title}</h2>
+            <p>Duration: {selectedTest.duration} minutes</p>
+            <p>Total Marks: {selectedTest.totalMarks}</p>
+          </div>
 
-      <button
-        className="submit-button"
-        onClick={handleSubmit}
-        aria-label="Submit exam"
-      >
-        Submit Exam
-      </button>
+          <div className="questions-list">
+            {selectedTest.questions.map((question, index) => (
+              <div key={question.id} className="question-card">
+                <div className="question-header">
+                  <h3>Question {index + 1}</h3>
+                  <span className="marks">({question.marks} marks)</span>
+                </div>
+                <p className="question-text">{question.text}</p>
+                <div className="answer-section">
+                  <textarea
+                    className="answer-input"
+                    placeholder="Type your answer here..."
+                    value={answers[question.id] || ""}
+                    onChange={(e) => handleAnswerChange(question.id, e.target.value)}
+                    rows={4}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="button-container">
+            <button 
+              className="back-btn"
+              onClick={() => {
+                if (confirm("Are you sure you want to exit? Your answers will be lost.")) {
+                  setSelectedTest(null);
+                  setAnswers({});
+                }
+              }}
+            >
+              Back to Tests
+            </button>
+            <button
+              className="submit-btn"
+              onClick={handleSubmit}
+              disabled={submitting}
+            >
+              {submitting ? "Submitting..." : "Submit Answers"}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ExamPortal;
+export default StudentPortal;
